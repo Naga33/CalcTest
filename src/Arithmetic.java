@@ -1,47 +1,67 @@
-import java.util.ArrayList;
+import java.util.Map;
 
+/**
+ * This class takes sub-expressions from the TokenListSender class and
+ * gives them to the Calculator class to compute. This class then stores the final
+ * result of the whole expression and saves the final result to the bindings map
+ * under the key "_".
+ *
+ * @author courtenay
+ * @version 1.8
+ * @since 1.8
+ */
 public class Arithmetic {
-    //purpose of this class is to take subtoken from tokenlistsender and calculator from calculator and get result
-    //also to save result to binding
 
     private TokenList tokenList;
     private TokenListSender listSender;
-    private ArrayList<Token> subExpression;
     private Calculator calculator;
     private Token result;
+    private Map<String,Double> bindings;
 
     public Arithmetic(String expr){
         tokenList = TokenList.getInstance(expr);
-        listSender = new TokenListSender(expr); //creates sub token list immediately
+        listSender = new TokenListSender(expr);
         listSender.createSubTokenListToCalculate();
-        calculator = new Calculator(); //calculator does not do anything unless method is called
+        calculator = new Calculator();
+        bindings = calculator.getBindings();
     }
 
+    /**
+     * Calculates final result of whole expression.
+     * <p>
+     *     This method gets a sub-expression from the TokenListSender class
+     *     and gives it to the calculator. Then any bindings set by the calculator
+     *     are updated. The result of the sub-expression is retrieved from the
+     *     calculator and the result is given to the TokenListSender to in turn
+     *     update the main token list. This process repeats until the main token
+     *     list only contains one value, which is the final result.
+     *     The final result is saved to the bindings map.
+     * </p>
+     */
     public void calculateFinalResult(){
 
         while(tokenList.getTokenArrayList().size()>1){
+            //there are still expressions to calculate
+
             calculator.setSubExpression(listSender.getSubTokenListToCalculate());
             calculator.calculateFinalResult();
+            bindings = calculator.getBindings();//update bindings from calculator class, cool if this were observer
             result = calculator.getResultToken();
             listSender.updateTokenList(result);
         }
+        saveFinalResultToBinding();
     }
 
     public Token getResult(){
         return result;
     }
 
-//TODO: assign, -terms, tests, docstrings, clean up code and make consistent
+    private void saveFinalResultToBinding(){
+        Double finalResult = Double.parseDouble(result.getValue());
+        bindings.put("_",finalResult);
+    }
 
-
-
-
-//    private void saveResultToBinding(){
-//        if(tokenList.getTokenArrayList().size()==1){
-//            String finalValue = tokenList.getTokenArrayList().get(0).getValue();
-//            Double finalResult = Double.parseDouble(finalValue);
-//            tokenList.updateBindings("_",finalResult);
-//            //bindings.put("_",finalResult);
-//        }//needs to be saved but won't need serialisation in their version.
-//    }
+    public Map<String,Double> getBindings(){
+        return bindings;
+    }
 }

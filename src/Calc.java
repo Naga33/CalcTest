@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.TreeMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * A simple calculator program reading arithmetic expressions from the standard
@@ -50,27 +49,21 @@ public class Calc {
      * @return the value of the given expression
      */
     public double eval(String expr) {
-        // TODO: return the value of the given expression
-        // some examples:
-        // "1+2*3+4" returns 11.0
-        // "(1+2)*(3+4)" returns 21.0
-        // "sqrt(2)*sqrt(2) returns 2.0
-        // "pi=3.14159265359" returns 3.14159265359
-        //     and binds the identifier 'pi' to the same value
-        // "cos(pi)" should then return -1
 
-
-
-
-
-        throw new UnsupportedOperationException();
+        Arithmetic compute = new Arithmetic(expr);
+        compute.calculateFinalResult();
+        Token finalResult = compute.getResult();
+        Double result = Double.parseDouble(finalResult.getValue());
+        bindings = compute.getBindings();
+        return result;
     }
 
     public Map<String,Double> bindings() {
         return bindings;
     }
 
-    private final Map<String,Double> bindings = new TreeMap<>();
+    //private final Map<String,Double> bindings = new TreeMap<>(); //why is TreeMap used here instead of HashMap?
+    private Map<String,Double> bindings = new TreeMap<>();
 
     public static void main(String[] args) throws IOException {
         Calc calc = new Calc();

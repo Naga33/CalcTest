@@ -1,21 +1,28 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 
+/**
+ * This class creates an ArrayList of Token objects based on a valid string input
+ * (see formal grammar in Calc class for valid inputs).
+ * @see Calc
+ * This class also contains a boolean indicator stating whether brackets are
+ * present in the ArrayList.
+ * This class is singleton as only one TokenList need ever be made from input string.
+ *
+ * @author courtenay
+ * @version 1.8
+ * @since 1.8
+ */
 public class TokenList {
 
     private static TokenList uniqueInstance;
     private String expression;
     private RegexList regexList = RegexList.getInstance();
     private ArrayList<Token> tokenArrayList = new ArrayList<>();
-    private Map<String,Double> bindings = new HashMap<>();
-    private boolean bracketsExist;
-
 
     private TokenList(String expression){
         this.expression = expression;
-        createTokenArrayList();
+        createTokenList();
     }
 
     //singleton
@@ -26,21 +33,21 @@ public class TokenList {
         return uniqueInstance;
     }
 
-    private void createTokenArrayList(){
-        createInitialTokenList();
-        replaceIds();
-        printTokenArrayList();
-        findBrackets();
-        printDoBracketsExist();
-    }
-
-
-    private void createInitialTokenList(){
+    /**
+     * Creates list of tokens from input string expression.
+     * <p>
+     * The input string is checked for corresponding Regex objects and if present,
+     * the matching substring is extracted from the input string and added to the
+     * token ArrayList. The substring is removed from the input string and the
+     * search continues until input is an empty string.
+     * </p>
+     */
+    private void createTokenList(){
         while(!expression.equals("")){
 
             for (Regex currentRegex:regexList.getRegexArrayList()
             ) {
-                //compile regex string and compare to expression
+                //compare regex pattern to expression
                 Matcher matcher = currentRegex.getPattern().matcher(expression);
 
                 if(matcher.find()){
@@ -58,122 +65,24 @@ public class TokenList {
                 }
             }
         }
-        //removeNumsWithoutValue();
     }
 
-    private void removeNumsWithoutValue(){
-
-        ArrayList<Token> removeTokenList = new ArrayList<>();
-
-        //add valueless tokens to removeTokenList
-        for (Token token:tokenArrayList
-        ) {
-            if(token.getValue().equals("")){
-                removeTokenList.add(token);
-            }
-        }
-
-        //remove valueless tokens from tokenArrayList
-        for (Token token:removeTokenList
-        ) {
-            tokenArrayList.remove(token);
-        }
-
-    }
-
-    private void replaceIds(){
-        for (Token token:tokenArrayList
-        ) {
-            if(token.getName().equals("id")){
-                //check binding keys for token value
-                if(bindings.containsKey(token.getValue())){
-                    token.setValue(bindings.get(token.getValue()).toString());
-                }
-            }
-        }
-    }
-
-    public void findBrackets(){
+    /**
+     * Returns true if token list contains any brackets.
+     *
+     * @return boolean stating whether token list contains a parenthesis character.
+     */
+    public boolean getBracketsExist(){
         for (Token token:tokenArrayList
         ) {
             if (token.isTokenBracket()){
-                bracketsExist = true;
-                break;
-            }
-            else{
-                bracketsExist = false;
+                return true;
             }
         }
-    }
-
-    private void printDoBracketsExist(){
-        System.out.println("Brackets: "+bracketsExist);
-    }
-
-    public boolean getBracketsExist(){
-        return this.bracketsExist;
+        return false;
     }
 
     public ArrayList<Token> getTokenArrayList(){
         return tokenArrayList;
     }
-    public String getExpression(){
-        return expression;
-    }
-
-    //sholuld this method be in this class?
-    public void updateBindings(String key, Double value){
-        this.bindings.put(key,value);
-        printBindings();
-    }
-
-    private void printBindings() {
-        System.out.println("\n\nPrinting bindings:");
-        for (String bindingKey:bindings.keySet()
-        ) {
-            System.out.println(bindingKey+" : "+bindings.get(bindingKey));
-        }
-    }
-
-    public void printTokenArrayList(){
-        System.out.println("\n\nPrinting Token arraylist:");
-        for (Token token:tokenArrayList
-        ) {
-            System.out.println(token.toString());
-        }
-    }
-
-    public void printFinalResult(){
-        if (tokenArrayList.size() == 1){
-            //only one Token left in list: the final result!
-            System.out.println("\nFinal Result!\n"+tokenArrayList.get(0).toString());
-        }
-    }
-
-//    public void printSubTokenIndexListBrackets(){
-//        //print
-//        System.out.println("\n\nSubTokenList: ");
-//        for (Integer index: subTokenIndexListBrackets
-//        ) {
-//            System.out.println("index: "+ index + "\nToken: "+ tokenArrayList.get(index));
-//        }
-//    }
-//
-//    public void printSubTokenArrayListBrackets(){
-//        System.out.println("\n\nPrinting Sub Token arraylist:");
-//        for (Token token: subTokenListBrackets
-//        ) {
-//            System.out.println(token.toString());
-//        }
-//    }
-//
-//    public void printTokenListToCalculate(){
-//        System.out.println("\n\nPrinting tokenListToCalculate:");
-//        for (Token token:tokenListToCalculate
-//        ) {
-//            System.out.println(token.toString());
-//        }
-//    }
-
-
 }
