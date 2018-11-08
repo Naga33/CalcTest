@@ -60,17 +60,16 @@ public class Calculator {
             else{
                 //subExpression contains multiple tokens
 
-                //first replace any ids from bindings map
-                replaceIds();
+                replaceIdsWithBindingValues();
 
                 //calculate functions
-                for (int i = 0; i < functionOrder.length; i++) {
-                    calculateFunctions(functionOrder[i]);
+                for (String function : functionOrder) {
+                    calculateFunctions(function);
                 }
 
                 //calculate operators
-                for (int i = 0; i < operationOrder.length; i++) {
-                    calculateOperators(operationOrder[i]);
+                for (String operator : operationOrder) {
+                    calculateOperators(operator);
                 }
 
                 calculateAssign();
@@ -81,14 +80,14 @@ public class Calculator {
     /**
      * Replaces ids in sub-expression with values from map.
      */
-    private void replaceIds(){
-        for (Token token:subExpression
-        ) {
-            if(token.getName().equals("id")){
-                //check binding keys for token value
-                if(bindings.containsKey(token.getValue())){
-                    token.setValue(bindings.get(token.getValue()).toString());
-                }
+    private void replaceIdsWithBindingValues(){
+        for (Token token:subExpression) {
+
+            boolean isIdToken = token.getName().equals("id");
+            boolean isIdInBindings = bindings.containsKey(token.getValue());
+
+            if(isIdToken && isIdInBindings){
+                token.setValue(bindings.get(token.getValue()).toString());
             }
         }
     }
@@ -162,9 +161,9 @@ public class Calculator {
      *     The sub-expression is then refreshed with the result.
      * </p>
      *
-     * @param operation stating the type of calculation (/,*,+,-).
+     * @param operator stating the type of calculation (/,*,+,-).
      */
-    private void calculateOperators(String operation){
+    private void calculateOperators(String operator){
         String resultTokenType = "num";
         Token resultToken;
         CalcTree calculation;
@@ -175,7 +174,7 @@ public class Calculator {
             Token previousToken = subExpression.get(i-1);
             Token nextToken = subExpression.get(i+1);
 
-            if(currentToken.getName().equals(operation)){
+            if(currentToken.getName().equals(operator)){
 
                 calculation = new CalcTree(currentToken.getValue(),
                         new CalcTree(previousToken.getValue(), null, null),

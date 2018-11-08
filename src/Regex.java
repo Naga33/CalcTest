@@ -15,10 +15,10 @@ public class Regex {
     private String value;
     private Pattern pattern;
 
-    public Regex(String aName, String aValue){
-        name = aName;
-        value = aValue;
-        pattern = Pattern.compile(aValue);
+    public Regex(String name, String value){
+        this.name = name;
+        this.value = value;
+        pattern = Pattern.compile(value);
     }
 
     public String getName() {

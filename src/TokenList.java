@@ -45,8 +45,7 @@ public class TokenList {
     private void createTokenList(){
         while(!expression.equals("")){
 
-            for (Regex currentRegex:regexList.getRegexArrayList()
-            ) {
+            for (Regex currentRegex:regexList.getRegexArrayList()) {
                 //compare regex pattern to expression
                 Matcher matcher = currentRegex.getPattern().matcher(expression);
 
@@ -73,8 +72,7 @@ public class TokenList {
      * @return boolean stating whether token list contains a parenthesis character.
      */
     public boolean getBracketsExist(){
-        for (Token token:tokenArrayList
-        ) {
+        for (Token token:tokenArrayList) {
             if (token.isTokenBracket()){
                 return true;
             }
@@ -84,5 +82,9 @@ public class TokenList {
 
     public ArrayList<Token> getTokenArrayList(){
         return tokenArrayList;
+    }
+
+    public void clearTokenArrayList(){
+        tokenArrayList.clear();
     }
 }

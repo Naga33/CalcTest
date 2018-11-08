@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @version 1.8
  * @since 1.8
  */
-public class TokenListSender {
+public class SubTokenList {
     /**
      * It might be cool if this class could observe the main token list,
      * so the sub-lists could be regenerated automatically.
@@ -22,7 +22,7 @@ public class TokenListSender {
     private TokenList tokenList;
     private boolean lastExpressionToCalculate;
 
-    public TokenListSender(String expression){
+    public SubTokenList(String expression){
         tokenList = TokenList.getInstance(expression);
     }
 
@@ -121,9 +121,8 @@ public class TokenListSender {
             if(!innerCheck){
                 break;
             }
-            else{
-                outerCount = outerCount + innerCount;
-            }
+            outerCount = outerCount + innerCount;
+
         }
         return bracketsIndexList;
     }
@@ -170,7 +169,18 @@ public class TokenListSender {
      *
      * @param result token after calculation of a sub-expression.
      */
-    public void updateTokenList(Token result){
+    public void updateTokenLists(Token result){
+
+        refreshTokenList(result);
+        refreshSubTokenListToCalculate();
+    }
+
+    /**
+     * Updates the main token list with calculation result.
+     *
+     * @param result token after calculation of a sub-expression.
+     */
+    public void refreshTokenList(Token result){
 
         //if sub list was final expression
         if(lastExpressionToCalculate){
@@ -188,7 +198,6 @@ public class TokenListSender {
             int toIndex = subIndexList.get(subIndexList.size()-1)+1; //plus one because sublist is exclusive
             tokenList.getTokenArrayList().subList(fromIndex, toIndex).clear();
         }
-        refreshSubTokenListToCalculate();
     }
 
     public void refreshSubTokenListToCalculate(){

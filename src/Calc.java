@@ -50,11 +50,11 @@ public class Calc {
      */
     public double eval(String expr) {
 
-        Arithmetic compute = new Arithmetic(expr);
-        compute.calculateFinalResult();
-        Token finalResult = compute.getResult();
+        Arithmetic arithmetic = new Arithmetic(expr);
+        arithmetic.calculateFinalResult();
+        Token finalResult = arithmetic.getResult();
         Double result = Double.parseDouble(finalResult.getValue());
-        bindings = compute.getBindings();
+        bindings = arithmetic.getBindings();
         return result;
     }
 
