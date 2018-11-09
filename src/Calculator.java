@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class takes a sub-expression in the form of a Token ArrayList and computes the result.
+ * This class can take a sub-expression in the form of a Token ArrayList and can compute the result.
  * The class also maps any ids in the expression to their values, and saves any new ids.
  *
  * @author courtenay
@@ -20,7 +19,7 @@ public class Calculator {
     private String[] functionOrder = {"sqrt", "log", "sin", "cos"};
     private ArrayList<Token> subExpression;
     private Token resultToken;
-    private Map<String, Double> bindings = new HashMap<>();
+    private Map<String, Double> bindings;
 
     public Calculator(Map<String, Double> userBindings){
         bindings = userBindings;

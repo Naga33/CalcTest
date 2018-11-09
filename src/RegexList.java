@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * This class creates a list of Regex objects according to the formal grammar
  * provided in Calc class, and stores them in an ArrayList.
  * @see Calc
- * This class is singleton as only one RegexList need ever be made in program.
+ * This class is singleton as only one RegexList need ever be made in the program.
  *
  * @author courtenay
  * @version 1.8
@@ -27,7 +27,7 @@ public class RegexList {
     private Regex multiply = new Regex("multiply", "\\A\\*");
     private Regex divide = new Regex("divide", "\\A\\/");
     private ArrayList<Regex> regexArrayList = new ArrayList<>();
-    //TODO: allow for -, term can be negative
+    //TODO: allow for -, a term can be negative
 
 
     private RegexList(){

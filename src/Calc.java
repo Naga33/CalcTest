@@ -63,7 +63,7 @@ public class Calc {
         return bindings;
     }
 
-    //private final Map<String,Double> bindings = new TreeMap<>(); //why is TreeMap used here instead of HashMap?
+    //private final Map<String,Double> bindings = new TreeMap<>(); //why is final TreeMap used here instead of HashMap?
     private Map<String,Double> bindings = new HashMap<>();
 
     public static void main(String[] args) throws IOException {

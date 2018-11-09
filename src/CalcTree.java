@@ -11,7 +11,7 @@ public class CalcTree {
      * I would have liked to have had a more impressive tree structure,
      * however other implementations I wrote could not handle
      * brackets, or I had trouble writing to the tree (e.g. top-down,
-     * bottom-up, more than two branches, etc.).
+     * bottom-up, more than two branches from a single node, etc.).
      */
 
     private String value;
