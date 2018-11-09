@@ -24,6 +24,12 @@ public class CalcTree {
         this.right = right;
     }
 
+    public CalcTree(String value){
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+
     public CalcTree getLeft(){
         return this.left;
     }

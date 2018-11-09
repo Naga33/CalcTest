@@ -19,12 +19,8 @@ public class SubTokenList {
 
     private ArrayList<Token> subTokenListToCalculate = new ArrayList<>();
     private ArrayList<Integer> subIndexList = new ArrayList<>();
-    private TokenList tokenList;
+    private TokenList tokenList = TokenList.getInstance();
     private boolean lastExpressionToCalculate;
-
-    public SubTokenList(String expression){
-        tokenList = TokenList.getInstance(expression);
-    }
 
     /**
      * Creates sublist of tokens, able to be calculated by Calculator class.

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class Calc {
      */
     public double eval(String expr) {
 
-        Arithmetic arithmetic = new Arithmetic(expr);
+        Arithmetic arithmetic = new Arithmetic(expr, bindings);
         arithmetic.calculateFinalResult();
         Token finalResult = arithmetic.getResult();
         Double result = Double.parseDouble(finalResult.getValue());
@@ -63,7 +64,7 @@ public class Calc {
     }
 
     //private final Map<String,Double> bindings = new TreeMap<>(); //why is TreeMap used here instead of HashMap?
-    private Map<String,Double> bindings = new TreeMap<>();
+    private Map<String,Double> bindings = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         Calc calc = new Calc();

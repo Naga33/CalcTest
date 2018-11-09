@@ -22,7 +22,9 @@ public class Calculator {
     private Token resultToken;
     private Map<String, Double> bindings = new HashMap<>();
 
-    public Calculator(){}
+    public Calculator(Map<String, Double> userBindings){
+        bindings = userBindings;
+    }
 
     /**
      * Sets the sub-expression for the calculator to compute.

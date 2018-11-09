@@ -20,17 +20,17 @@ public class TokenList {
     private RegexList regexList = RegexList.getInstance();
     private ArrayList<Token> tokenArrayList = new ArrayList<>();
 
-    private TokenList(String expression){
-        this.expression = expression;
-        createTokenList();
-    }
-
     //singleton
-    public static synchronized TokenList getInstance(String expression){
+    public static synchronized TokenList getInstance(){
         if(uniqueInstance==null){
-            uniqueInstance = new TokenList(expression);
+            uniqueInstance = new TokenList();
         }
         return uniqueInstance;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
+        createTokenList();
     }
 
     /**

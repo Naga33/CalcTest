@@ -1,3 +1,4 @@
+import java.io.StringReader;
 import java.util.Map;
 
 /**
@@ -18,12 +19,13 @@ public class Arithmetic {
     private Token result;
     private Map<String,Double> bindings;
 
-    public Arithmetic(String expr){
-        tokenList = TokenList.getInstance(expr);
-        subTokenList = new SubTokenList(expr);
+    public Arithmetic(String expr, Map<String, Double> bindings){
+        tokenList = TokenList.getInstance();
+        tokenList.setExpression(expr);
+        subTokenList = new SubTokenList();
         subTokenList.createSubTokenListToCalculate();
-        calculator = new Calculator();
-        bindings = calculator.getBindings();
+        calculator = new Calculator(bindings);
+        this.bindings = bindings;
     }
 
     /**
